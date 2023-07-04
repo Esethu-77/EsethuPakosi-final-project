@@ -23,6 +23,12 @@ function formatedDate(date) {
   return `${day} ${hour}:${minutes}`;
 }
 
+function displayForecast() {
+let forecastElement = document.querySelector("forecast");
+
+forecastElement.innerHTML = "forecast"
+}
+
 let now = document.querySelector("li.time");
 let currentTime = new Date();
 now.innerHTML = formatedDate(currentTime);
@@ -58,6 +64,8 @@ function searchCity(city) {
 }
 
 let celsiusTemperature = null;
+
+displayForecast();
 
 function press(event) {
   event.preventDefault();
