@@ -24,9 +24,36 @@ function formatedDate(date) {
 }
 
 function displayForecast() {
-let forecastElement = document.querySelector("forecast");
+let forecastElement = document.querySelector("#forecast");
 
-forecastElement.innerHTML = "forecast"
+let forecastHTML = `<div class="row">`;
+let days = ["Tue", "Wed","Thu", "Fri","sat","sun",];
+days.forEach(function(day) {
+    forecastHTML =
+      forecastHTML +
+      `
+                         <div class="col-2">
+                          <div class="weather-forecast-date">${day}</div> 
+                          <img
+                           src="https://openweathermap.org/img/wn/02d@2x.png"
+                           alt=""
+                           width="36"
+                            />
+                        <div class="weather-forecast-temperature">
+                          <span class="weather-forecast-temperature-max">
+                          18°
+                          </span>
+                          <span class="weather-forecast-temperature-min">
+                          10°
+                           </span>
+                    </div>
+                 </div>
+                 `;
+
+})
+forecastHTML =  forecastHTML +`</div>`
+forecastElement.innerHTML = forecastHTML;
+
 }
 
 let now = document.querySelector("li.time");
@@ -65,7 +92,6 @@ function searchCity(city) {
 
 let celsiusTemperature = null;
 
-displayForecast();
 
 function press(event) {
   event.preventDefault();
@@ -102,6 +128,8 @@ function displayLocation(event) {
   event.preventDefault();
   navigator.geolocation.getCurrentPosition(searchLocation);
 }
+
+displayForecast();
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", press);
