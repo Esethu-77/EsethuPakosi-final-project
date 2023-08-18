@@ -1,5 +1,5 @@
 function formatDate(timestamp) {
-	let date = new
+	let now = new Date();
 	Date(timestamp);
 	let days = [
 		"Sunday",
@@ -10,14 +10,17 @@ function formatDate(timestamp) {
 		"Friday",
 		"Saturday",
 	];
-	let day = days[date.getDay()];
-	let hours = date.getHours();
-	if (hours < 10) {
-		hours = `0${minutes}`;
-	}
-	return `${day}
-	${hour}:${minutes}`;
 }
+	let day = days[now.getDay()];
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  let ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  let dateTime = document.getElementById("date-time");
+  dateTime.innerHTML =
+  day + " " + hours + ":" + (minutes < 10 ? "0" : "") + minutes + " " + ampm;
 
 function formatDay(timestamp) {
 	let date = new Date(timestamp * 1000);
@@ -32,7 +35,8 @@ function displayForecast(response) {
 	let forecastElement = document.querySelector("#forecast");
 
 	let forecastHTML = `<div class="row">`;
-	forecast.forEach(function (forecastDay) {
+	forecast.forEach(function (forecastDay, index) {
+    if(index < 6) {
 		forecastHTML =
       forecastHTML +
       `
@@ -53,6 +57,7 @@ function displayForecast(response) {
 									</div>
 								 </div>
 								 `;
+    }
 	});
 
 	forecastHTML = forecastHTML + `</div>`;
@@ -101,7 +106,7 @@ function searchCity(city) {
 	});
 }
 
-function getCurrentLocation() {
+function getcurrentLocation() {
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(function (position) {
       let latitude = position.coords.latitude;
@@ -127,7 +132,7 @@ function press(event) {
 	search(cityInputElement.value);
 }
 
-function displayFahrenheitLinkTemperature(event) {
+function displayfahrenheitLinkTemperature(event) {
 	event.preventDefault();
 	let fahrenheitTemperature = (celsiusTemperature * 9) / 5 + 32;
 
@@ -138,7 +143,7 @@ function displayFahrenheitLinkTemperature(event) {
 	alert(fahrenheitTemperature);
 }
 
-function displaycelciusTemperature(event) {
+function displaycelsiusTemperature(event) {
 	event.preventDefault();
 	celsiusLink.classList.add("active");
 
@@ -153,7 +158,7 @@ let currentLocation = document.querySelector("#current-location-button");
 currentLocation.addEventListener("click", getcurrentLocation);
 
 let form = document.querySelector("#search-form");
-form.addEventListener("click", searchForm);
+form.addEventListener("click", searchFor);
 
 let celsiusLink = document.querySelector("#celsius-link");
 celsiusLink.addEventListener("click", displaycelsiusTemperature);
@@ -162,5 +167,3 @@ let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", displayfahrenheitLinkTemperature);
 
 searchCity("Cape Town");
-
-
