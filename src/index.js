@@ -35,7 +35,7 @@ function displayForecast(response) {
 
   let forecastHTML = `<div class="row">`;
   forecast.forEach(function (forecastDay, index) {
-    if (index < 6) {
+    if (index > 0 && index <= 6) {
       forecastHTML =
         forecastHTML +
         `
@@ -75,7 +75,6 @@ function displayTemperature(response) {
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
   windElement.innerHTML = `${Math.round(response.data.wind.speed)} km/h`;;
-  let dateElement = document.querySelector("#date-time");
   let iconElement = document.querySelector("#icon");
 
   celsiusTemperature = response.data.main.temp;
