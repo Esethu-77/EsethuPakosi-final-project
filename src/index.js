@@ -164,4 +164,20 @@ celsiusLink.addEventListener("click", displaycelsiusTemperature);
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", displayfahrenheitLinkTemperature);
 
+let searchButton = document.querySelector("#search-button");
+searchButton.addEventListener("click", function (event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#input-search");
+  searchCity(cityInputElement.value);
+});
+
+let cityInputElement = document.querySelector("#input-search");
+cityInputElement.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    searchCity(cityInputElement.value);
+  }
+});
+
 searchCity("Cape Town");
+
