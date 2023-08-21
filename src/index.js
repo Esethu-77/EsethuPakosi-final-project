@@ -74,7 +74,7 @@ function displayTemperature(response) {
   let descriptionElement = document.querySelector("#description");
   let humidityElement = document.querySelector("#humidity");
   let windElement = document.querySelector("#wind");
-  let precipitationElemnt = document.querySelector("#precipitation");
+  windElement.innerHTML = `${Math.round(response.data.wind.speed)} km/h`;;
   let dateElement = document.querySelector("#date-time");
   let iconElement = document.querySelector("#icon");
 
@@ -82,19 +82,32 @@ function displayTemperature(response) {
   temperatureElement.innerHTML = Math.round(response.data.main.temp);
   cityElement.innerHTML = response.data.name;
   descriptionElement.innerHTML = response.data.weather[0].description;
-  humidityElement.innerHTML = response.data.main.humidity;
-  windElement.innerHTML = Math.round(response.data.wind.speed);
-  precipitationElemnt.innerHTML = response.data.main.humidity;
+  humidityElement.innerHTML = `${response.data.main.humidity}%`;
+  windElement.innerHTML = `${Math.round(response.data.wind.speed)} km/h`;
   formatDate(response.data.dt * 1000);
+
+  let precipitationElement = document.querySelector("#precipitation");
+
+  if (response.data.hasOwnProperty("rain")) {
+    precipitationElement.innerHTML = `${
+      response.data.rain["1h"] || response.data.rain["3h"] || "unknown"
+    } mm`;
+  } else if (response.data.hasOwnProperty("snow")) {
+    precipitationElement.innerHTML = `${
+      response.data.snow["1h"] || response.data.snow["3h"] || "unknown"
+    } mm`;
+  } else {
+    precipitationElement.innerHTML = "0 mm"; 
+  }
 
   iconElement.setAttribute(
     "src",
     `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
-
   iconElement.setAttribute("alt", response.data.weather[0].description);
   getForecast(response.data.coord);
 }
+
 
 function searchCity(city) {
   let apikey = "6fd665f227453ba8279e3d39e454b700";
